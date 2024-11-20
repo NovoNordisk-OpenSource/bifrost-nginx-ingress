@@ -1,0 +1,1 @@
+FROM nginx/nginx-ingress:3.7.1
