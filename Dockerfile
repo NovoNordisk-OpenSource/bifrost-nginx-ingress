@@ -1,1 +1,2 @@
-FROM nginx/nginx-ingress:3.7.1
+ARG VERSION=1.11.2
+FROM registry.k8s.io/ingress-nginx/controller:v{VERSION}
