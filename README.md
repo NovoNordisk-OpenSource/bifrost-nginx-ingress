@@ -2,6 +2,9 @@
 
 This repo provides a customized NGINX ingress controller image used in Ingress Controller for NGINX
 
+- Original NGINX ingress controller Docker file [here](https://github.com/kubernetes/ingress-nginx/blob/main/rootfs/Dockerfile)
+- Original NGINX ingress releases [here](https://github.com/kubernetes/ingress-nginx/releases)
+
 ## Modules
 
 The image includes the following extra NGINX modules:
