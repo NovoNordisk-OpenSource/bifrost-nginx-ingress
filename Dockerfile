@@ -3,6 +3,12 @@ FROM registry.k8s.io/ingress-nginx/controller:v${VERSION}
 
 USER root
 
+# Install ngx_http_auth_jwt_module.so dependencies
+RUN apk add --no-cache \
+    jansson \
+    openssl \ 
+    libjwt
+
 # Copy the ngx_http_auth_jwt_module.so file to the /etc/nginx/modules/ folder
 COPY modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
 
