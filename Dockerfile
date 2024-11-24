@@ -7,7 +7,7 @@ USER root
 RUN apk -U upgrade && apk add --no-cache \
     jansson \
     openssl \ 
-    libjwt 
+    libjwt0 
     
 # Copy the ngx_http_auth_jwt_module.so file to the /etc/nginx/modules/ folder
 COPY modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
