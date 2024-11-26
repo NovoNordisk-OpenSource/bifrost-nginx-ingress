@@ -1,10 +1,10 @@
-ARG VERSION=1.11.2
+ARG VERSION=1.11.3
 FROM registry.k8s.io/ingress-nginx/controller:v${VERSION}
 
 USER root
 
 # Install ngx_http_auth_jwt_module.so dependencies
-RUN apk -U upgrade && apk add --no-cache \
+RUN apk add --no-cache \
     jansson \
     openssl \ 
     libjwt
