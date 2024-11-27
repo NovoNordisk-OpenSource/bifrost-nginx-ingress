@@ -10,8 +10,10 @@ RUN apt-get update && apt-get install -y libjwt0
 # Conditional copy based on the platform
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         cp /usr/lib/x86_64-linux-gnu/libb64.so.0d /usr/lib/; \
+        cp /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
         cp /usr/lib/aarch64-linux-gnu/libb64.so.0d /usr/lib/; \
+        cp /usr/lib/aarch64-linux-gnu/libcrypto.so.1.1 /usr/lib/; \
     fi
 
 ## Second stage: Use ingress-nginx/controller image
@@ -22,9 +24,10 @@ USER root
 # Copy the ngx_http_auth_jwt_module.so file to the /etc/nginx/modules/ folder
 COPY --chown=www-data:www-data modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
 
-# Copy libjwt0 and it's dependencies from the builder stage
+## Copy libjwt0 and it's dependencies from the builder stage
 COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/
 COPY --from=builder /usr/lib/libb64.so.0d /usr/lib/
+COPY --from=builder /usr/lib/libcrypto.so.1.1 /usr/lib/
 
 # Install ngx_http_auth_jwt_module.so dependencies
 RUN apk add --no-cache \
