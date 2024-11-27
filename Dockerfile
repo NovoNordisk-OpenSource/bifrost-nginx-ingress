@@ -15,8 +15,8 @@ USER root
 COPY --chown=www-data:www-data modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
 
 # Copy libjwt0 and it's dependencies from the builder stage
-COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/
 COPY --from=builder /usr/lib/aarch64-linux-gnu/libb64.so.0d /usr/lib/
+COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/
 
 # Install ngx_http_auth_jwt_module.so dependencies
 RUN apk add --no-cache \
