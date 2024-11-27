@@ -20,9 +20,14 @@ COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/libjwt.so.0
 # Install ngx_http_auth_jwt_module.so dependencies
 RUN apk add --no-cache \
     jansson \
-    openssl
-    
+    openssl \
+    libjwt
+
+RUN apk add libb64 --no-cache --repository https://pkgs.alpinelinux.org/packages?name=&branch=edge&repo=testing
+
 # Change the ownership of the copied file to www-data
 RUN chown www-data:www-data /etc/nginx/modules/ngx_http_auth_jwt_module.so
 
 USER www-data
+
+CMD ["ls", "-l", "/usr/lib"]
