@@ -11,16 +11,16 @@ RUN apt-get update && apt-get install -y libjwt0
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         cp /usr/lib/x86_64-linux-gnu/libb64.so.0d /usr/lib/; \
         cp /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/; \
-        mkdir /usr/lib/to-copy; \
+        mkdir /usr/lib/to-copy-lib; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
         cp /usr/lib/aarch64-linux-gnu/libb64.so.0d /usr/lib/; \
         cp /usr/lib/aarch64-linux-gnu/libcrypto.so.1.1 /usr/lib/; \
-        mkdir /usr/lib/to-copy; \
-    cp /lib/ld-linux-aarch64.so.1 /usr/lib/to-copy; \
+        mkdir /usr/lib/to-copy-lib; \
+        cp /lib/ld-linux-aarch64.so.1 /usr/lib/to-copy-lib; \
     fi
 
 ## Second stage: Use ingress-nginx/controller image
-FROM registry.k8s.io/ingress-nginx/controller:v${VERSION}
+FROM --platform=$TARGETPLATFORM registry.k8s.io/ingress-nginx/controller:v${VERSION}
 
 USER root
 
@@ -31,7 +31,7 @@ COPY --chown=www-data:www-data modules/ngx_http_auth_jwt_module.so /etc/nginx/mo
 COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/
 COPY --from=builder /usr/lib/libb64.so.0d /usr/lib/
 COPY --from=builder /usr/lib/libcrypto.so.1.1 /usr/lib/
-COPY --from=builder /usr/lib/to-copy /usr/lib/
+COPY --from=builder /usr/lib/to-copy-lib /lib/
 
 # Install ngx_http_auth_jwt_module.so dependencies
 RUN apk add --no-cache \
