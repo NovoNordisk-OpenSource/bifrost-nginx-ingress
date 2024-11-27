@@ -23,11 +23,9 @@ RUN apk add --no-cache \
     openssl \
     libjwt
 
-RUN apk add libb64 --no-cache --repository https://pkgs.alpinelinux.org/packages?name=&branch=edge&repo=testing
+RUN apk add libb64 --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # Change the ownership of the copied file to www-data
 RUN chown www-data:www-data /etc/nginx/modules/ngx_http_auth_jwt_module.so
 
 USER www-data
-
-CMD ["ls", "-l", "/usr/lib"]
