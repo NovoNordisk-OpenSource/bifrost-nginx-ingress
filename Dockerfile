@@ -1,7 +1,7 @@
 ARG VERSION=1.11.3
 
 # First stage: Build libjwt0 from Ubuntu
-FROM ubuntu:bionic as builder
+FROM ubuntu:bionic AS builder
 
 # Install libjwt0
 RUN apt-get update && apt-get install -y libjwt0
@@ -16,14 +16,13 @@ COPY modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
 
 # Copy libjwt0 from the builder stage
 COPY --from=builder /usr/lib/libjwt.so.0 /usr/lib/libjwt.so.0
+COPY --from=builder /usr/lib/aarch64-linux-gnu/libb64.so.0d /usr/lib/libb64.so.0d
 
 # Install ngx_http_auth_jwt_module.so dependencies
 RUN apk add --no-cache \
     jansson \
     openssl \
     libjwt
-
-RUN apk add libb64 --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # Change the ownership of the copied file to www-data
 RUN chown www-data:www-data /etc/nginx/modules/ngx_http_auth_jwt_module.so
