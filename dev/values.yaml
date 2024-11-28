@@ -1,0 +1,9 @@
+# NGINX Ingress configuration
+  enabled: false
+  controller:
+    config:
+      main-snippet: "load_module /etc/nginx/modules/ngx_http_auth_jwt_module.so;"
+    image:
+      repository: ghcr.io/novonordisk-opensource/bifrost-nginx-ingress
+      # tag: "1.11.3"
+      digest: ""
