@@ -16,5 +16,6 @@ RUN apk -U upgrade && apk add --no-cache \
 COPY --chown=www-data:www-data modules/ngx_http_auth_jwt_module.so /etc/nginx/modules/
 
 RUN ln -s /usr/lib/libjwt.so.2 /usr/lib/libjwt0 
+RUN ln -s /usr/lib/libjwt.so.2 /usr/lib/libjwt.so.0
 
 USER www-data
