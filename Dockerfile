@@ -1,4 +1,4 @@
-ARG VERSION=1.11.3
+ARG VERSION=1.12.0
 
 
 ## Second stage: Use ingress-nginx/controller image
